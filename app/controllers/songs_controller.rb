@@ -5,10 +5,10 @@ class SongsController < ApplicationController
       if @artist.nil?
         redirect_to artists_path, alert: "Artist not found"
       else
-        @songs = @artist.songs
+        @songs = @artist.songs.song_order("title #{song_order}")
       end
     else
-      @songs = Song.all
+      @songs = Song.all.order("title #{song_order}")
     end
   end
 
@@ -25,9 +25,10 @@ class SongsController < ApplicationController
   end
 
   def new
-    if Preference.last.allow_create_songs == true
+    if song_create_access?
       @song = Song.new
     else
+      flash[:alert] = "You do not have permission to add new songs."
       redirect_to songs_path
     end
   end
@@ -70,4 +71,14 @@ class SongsController < ApplicationController
   def song_params
     params.require(:song).permit(:title, :artist_name)
   end
+
+  def song_order
+    Preference.last.song_sort_order
+  end
+
+  def song_create_access?
+    Preference.last.allow_create_songs == true
+  end
+
+
 end
