@@ -5,8 +5,12 @@ Rails.application.routes.draw do
   end
   resources :songs
 
-  namespace :admin do
-    resources :preferences, only: [:index]
-  end
+#config/routes.rb
+  # namespace :admin do  ##gave me trouble with form_for
+  #   resources :preferences, only: [:index, :edit, :update]
+  # end
 
+  scope '/admin', module: 'admin' do
+    resources :preferences, only: [:index, :edit, :update]
+  end
 end
