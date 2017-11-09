@@ -1,10 +1,30 @@
-<h1>Admin Preferences</h1>
+<h1>Access</h1>
 
-<ul>
-  <li><b>Artist Sort Order: </b> <%= @preference.artist_sort_order %></li>
-  <li><b>Song Sort Order: </b> <%= @preference.song_sort_order %></li>
-  <li><b>Allow Artist Creation: </b> <%= @preference.allow_create_artists %></li>
-  <li><b>Allow Song Creation: </b> <%= @preference.allow_create_songs %></li>
-</ul>
-
-<%= link_to "Edit Preferences", edit_preference_path(@preference) %>
+<%= form_for @preference, url: preference_path(@preference) do |f| %>
+  <div>
+    <%= f.label :allow_create_artists %><br>
+    True: <%= f.radio_button :allow_create_artists, true %>
+    False: <%= f.radio_button :allow_create_artists, false %>
+  </div>
+  <div>
+    <%= f.label :allow_create_songs %><br>
+    True: <%= f.radio_button :allow_create_songs, true %>
+    False: <%= f.radio_button :allow_create_songs, false %>
+  </div>
+  <div>
+    <%= f.label :song_sort_order %>:<br>
+    DESC: <%= f.radio_button :song_sort_order, "DESC" %>
+    ASC: <%= f.radio_button :song_sort_order, "ASC" %>
+  </div>
+  <div>
+    <%= f.label :artist_sort_order %>:<br>
+    DESC: <%= f.radio_button :artist_sort_order, "DESC" %>
+    ASC: <%= f.radio_button :artist_sort_order, "ASC" %>
+  </div>
+  <br>
+  <%= f.submit %>
+<% end %>
+<br />
+<%= link_to "Edit Preferences (Relic now)", edit_preference_path(@preference) %> <br>
+Relic now since I now know how url path in form_for works and bypasses the rails convention.
+Still though, it's good reference for how dropdown menus work.
